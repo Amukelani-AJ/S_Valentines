@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>valentine's trap</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(145deg, #ffddee 0%, #ffb6d1 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Quicksand', 'Segoe UI', cursive, sans-serif;
+      padding: 1rem;
+      margin: 0;
+    }
+
+    .valentine-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 64px 24px 64px 24px;
+      box-shadow: 0 25px 45px rgba(230, 80, 120, 0.35), 0 10px 20px rgba(0,0,0,0.1);
+      padding: 2.5rem 2rem;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      border: 3px solid white;
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      color: #d43b6e;
+      text-shadow: 4px 4px 0 #ffe0f0;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      line-height: 1.1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    h1 span {
+      font-size: 3rem;
+      display: inline-block;
+    }
+
+    .title-heart {
+      font-size: 3.5rem;
+      filter: drop-shadow(2px 2px 0 #ffb6c1);
+    }
+
+    .question {
+      font-size: 2rem;
+      margin: 2rem 0 2.5rem;
+      background: #ffecf2;
+      display: inline-block;
+      padding: 0.5rem 2rem;
+      border-radius: 60px;
+      color: #b32e5e;
+      font-weight: 600;
+      box-shadow: inset 0 -3px 0 #fbb6ce;
+    }
+
+    .button-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0 1rem;
+    }
+
+    .btn {
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      border-radius: 40px;
+      transition: 0.2s;
+      box-shadow: 0 12px 0 #b3405f, 0 8px 18px rgba(190, 60, 100, 0.4);
+      color: white;
+      font-size: 2.2rem;
+      padding: 0.8rem 2.4rem;
+      transform: translateY(-4px);
+      letter-spacing: 1.5px;
+      border: 2px solid #fff2f7;
+      min-width: 140px;
+    }
+
+    .btn-yes {
+      background: #ff4d8c;
+      box-shadow: 0 12px 0 #b32e5e, 0 8px 18px #ff94b6;
+    }
+
+    .btn-no {
+      background: #aab8c5;
+      box-shadow: 0 12px 0 #6b7b8b, 0 8px 18px #99aebb;
+      color: #2e3b4e;
+    }
+
+    .btn-yes:active { transform: translateY(4px); box-shadow: 0 4px 0 #b32e5e; }
+    .btn-no:active { transform: translateY(4px); box-shadow: 0 4px 0 #5a6978; }
+
+    .reset-note {
+      margin-top: 2.2rem;
+      font-size: 1.15rem;
+      color: #a04868;
+      background: #fff0f5dd;
+      padding: 0.6rem 1.8rem;
+      border-radius: 40px;
+      display: inline-block;
+      border: 2px dashed #f78fb4;
+      font-weight: 600;
+    }
+
+    .reset-note span {
+      cursor: pointer;
+      text-decoration: underline wavy #ff6080;
+      font-weight: 800;
+      color: #c1215b;
+    }
+
+    .bottom-note {
+      position: fixed;
+      bottom: 8px;
+      right: 16px;
+      z-index: 30;
+      color: #bc6180;
+      background: rgba(255,255,240,0.7);
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .emoji-decoration {
+      font-size: 2rem;
+      margin: 1rem 0 0;
+      opacity: 0.7;
+      letter-spacing: 0.5rem;
+    }
+
+    /* Success message styling */
+    .success-message {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: #ffecf2;
+      border-radius: 60px;
+      border: 3px solid white;
+      box-shadow: 0 8px 0 #d43b6e;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .success-message p {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #d43b6e;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-message .big-emoji {
+      font-size: 3rem;
+      line-height: 1.4;
+      letter-spacing: 0.3rem;
+    }
+
+    .success-message .sub-text {
+      font-size: 1.3rem;
+      color: #b32e5e;
+      font-weight: 600;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="valentine-card">
+    <h1>
+      <span class="title-heart">💖</span>
+      Shongile
+      <span class="title-heart">💖</span>
+    </h1>
+    <h1 style="margin-top: -0.8rem; font-size: 3rem;">
+      <span style="font-size: 2.5rem;"></span>
+    </h1>
+
+    <div class="question">will you be my valentine? 💘</div>
+
+    <div class="button-panel">
+      <!-- YES button - grows bigger with each no click -->
+      <button class="btn btn-yes" id="yesBtn">YES 🥰</button>
+      
+      <!-- NO button - text changes on click -->
+      <button class="btn btn-no" id="noBtn">no</button>
+    </div>
+
+    <div class="reset-note">
+      ❤️ no trick? <span id="resetTrigger">reset both</span> ✨
+    </div>
+
+    <!-- Success message (hidden by default) -->
+    <div id="successMessage" class="success-message hidden">
+      <p>💕 YAY! I knew it! 💕</p>
+      <div class="big-emoji">💖 💗 💓 💘 💝</div>
+      <p class="sub-text">Happy Valentine's Day! My Love</p>
+      <div class="big-emoji">🥰 😘 💋 ❤️</div>
+    </div>
+
+    <div class="emoji-decoration">
+      💕 💗 💓 💖 💘
+    </div>
+  </main>
+
+  <div class="bottom-note">
+    😹 keep pressing "no" if you dare
+  </div>
+
+  <script>
+    (function() {
+      const yesBtn = document.getElementById('yesBtn');
+      const noBtn = document.getElementById('noBtn');
+      const resetSpan = document.getElementById('resetTrigger');
+      const successMessage = document.getElementById('successMessage');
+
+      let noClickCount = 0;
+      let yesGrowthLevel = 1;
+      
+      // Text sequence for the no button (with emojis!)
+      const noTexts = [
+        "no",                          // 0
+        "are you sure? 😅",             // 1
+        "really really sure? 🤨",       // 2
+        "last chance! ⚠️",              // 3
+        "shongile???? 🥺",                // 4
+        "it's valentine!! 💕",          // 5
+        "you're breaking my heart 💔",  // 6
+        "okay maybe yes? 🤔",            // 7
+        "click yes instead 👆",          // 8
+        "i'll keep changing 🔄",         // 9
+        "just say yes ❤️",               // 10
+        "gorgeous? 🥺",                   // 11
+        "the yes button is huge 😳",     // 12
+        "look at it! 👀",               // 13
+        "you know you want to 😏",       // 14
+        "❤️❤️❤️❤️❤️",                    // 15
+        "…… 🤐",                        // 16
+        "you're stubborn 😤",            // 17
+        "fine, i give up 😫",            // 18
+        "but still … be mine? 🥹",       // 19
+        "ok i'm done 😘"                 // 20
+      ];
+
+      function updateNoText() {
+        let index = noClickCount % noTexts.length;
+        noBtn.textContent = noTexts[index];
+      }
+
+      function growYesButton() {
+        yesGrowthLevel++;
+        // Increase font size
+        let baseSize = 2.2;
+        let increment = (yesGrowthLevel - 1) * 0.6;
+        let newSize = baseSize + increment;
+        if (newSize > 8) newSize = 8;
+        yesBtn.style.fontSize = newSize + 'rem';
+        
+        // Increase padding to match
+        let basePadV = 0.8;
+        let basePadH = 2.4;
+        let newPadV = basePadV + (yesGrowthLevel-1)*0.2;
+        let newPadH = basePadH + (yesGrowthLevel-1)*0.5;
+        if (newPadV > 2.5) newPadV = 2.5;
+        if (newPadH > 6) newPadH = 6;
+        yesBtn.style.padding = `${newPadV}rem ${newPadH}rem`;
+      }
+
+      noBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        noClickCount++;
+        updateNoText();
+        growYesButton();
+
+        // Hide success message if it was showing
+        successMessage.classList.add('hidden');
+
+        // Little pop animation
+        noBtn.style.transform = 'scale(0.95) translateY(-4px)';
+        setTimeout(() => {
+          noBtn.style.transform = '';
+        }, 120);
+      });
+
+      yesBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Show the success message
+        successMessage.classList.remove('hidden');
+        
+        // Celebrate animation on yes button
+        yesBtn.style.transform = 'scale(1.1) translateY(-4px)';
+        setTimeout(() => yesBtn.style.transform = '', 200);
+
+        // Scroll success message into view smoothly
+        successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+
+      function resetAll() {
+        noClickCount = 0;
+        yesGrowthLevel = 1;
+        yesBtn.style.fontSize = '2.2rem';
+        yesBtn.style.padding = '0.8rem 2.4rem';
+        noBtn.textContent = noTexts[0];
+        yesBtn.style.transform = '';
+        noBtn.style.transform = '';
+        
+        // Hide success message
+        successMessage.classList.add('hidden');
+      }
+
+      resetSpan.addEventListener('click', function() {
+        resetAll();
+      });
+
+      // Initialize
+      updateNoText();
+    })();
+  </script>
+</body>
+</html>
